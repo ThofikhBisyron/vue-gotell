@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LoginView from '../views/LoginView.vue'
 import SignInView from '@/views/SignInView.vue'
-import OtpVerify from '@/views/OtpVerify.vue'
+import OtpVerify from '@/views/OtpVerifyView.vue'
 import DashboardView from '@/views/DashboardView.vue'
 import StatisticsView from '@/views/StatisticsView.vue'
 import DiaryView from '@/views/DiaryView.vue'
-import SettingsView from '@/views/SettingsView.vue'
+import SettingsView from '@/views/Settings/SettingsView.vue'
 
 
 const router = createRouter({
@@ -32,12 +32,12 @@ const router = createRouter({
     {
       path: '/otpverification',
       name: 'otpverification',
-      component: () => import('../views/OtpVerify.vue'),
+      component: () => import('../views/OtpVerifyView.vue'),
     },
     {
       path: '/securitypin',
       name: 'securitypin',
-      component: () => import('../views/SecurityPin.vue'),
+      component: () => import('../views/SecurityPinView.vue'),
     },
     {
       path: '/',
@@ -58,6 +58,36 @@ const router = createRouter({
       path: '/settings',
       name: 'settings',
       component: SettingsView,
+    },
+    {
+      path: '/settings/personaldetails',
+      name: 'personaldetails',
+      component: () => import('../views/Settings/PersonalView.vue'),
+    },
+    {
+      path: '/settings/notifications',
+      name: 'notifications',
+      component: () => import('../views/Settings/NotificationView.vue'),
+    },
+    {
+      path: '/settings/location',
+      name: 'location',
+      component: () => import('../views/Settings/LocationView.vue'),
+    },
+    {
+      path: '/settings/facelock',
+      name: 'facelock',
+      component: () => import('../views/Settings/FacelockView.vue'),
+    },
+    {
+      path: '/settings/pinsetting',
+      name: 'pinsetting',
+      component: () => import('../views/Settings/PinSettingView.vue'),
+    },
+    {
+      path: '/settings/help',
+      name: 'help',
+      component: () => import('../views/Settings/HelpView.vue'),
     },
   ],
 })

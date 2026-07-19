@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-const currentPage = defineModel<string>()
+import { RouterLink } from 'vue-router';
 
 </script>
 <template>
@@ -10,9 +10,9 @@ const currentPage = defineModel<string>()
             Account
         </div>
         <div class="flex flex-row justify-between">
-            <button class="" @click="currentPage='personal'">
+            <RouterLink to="/settings/personaldetails" class="">
                 Personal details
-            </button>
+            </RouterLink>
             <img src="" alt="">
         </div>
     </div>
@@ -22,15 +22,15 @@ const currentPage = defineModel<string>()
             Permissions
         </div>
         <div>
-            <div>
+            <RouterLink to="/settings/notifications">
                 Notifications
-            </div>
+            </RouterLink>
             <img src="" alt=""/>
         </div>
         <div>
-            <div>
+            <RouterLink to="/settings/location">
                 Location settings
-            </div>
+            </RouterLink>
             <img src="" alt="">
         </div>
     </div>
@@ -40,18 +40,18 @@ const currentPage = defineModel<string>()
             Security
         </div>
         <div>
-            <div>
+            <RouterLink to="/settings/facelock">
                 Face lock
-            </div>
+            </RouterLink>
             <img src="" alt="">
         </div>
         <div>
-            <div>
+            <RouterLink to="/settings/pinsetting">
                 Security PIN
-            </div>
+            </RouterLink>
             <img src="" alt="">
         </div>
-        <div>
+        <div class="hidden">
             <div>
                 Intruder selfie
             </div>
@@ -64,9 +64,9 @@ const currentPage = defineModel<string>()
             Other
         </div>
         <div>
-            <div>
+            <RouterLink to="/settings/help">
                 Help
-            </div>
+            </RouterLink>
             <img src="" alt="">
         </div>
         <div>

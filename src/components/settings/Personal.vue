@@ -2,7 +2,7 @@
 
 </script>
 <template>
-  <div class="about">
-    <h1>This is an personal page</h1>
+  <div class="w-6/12 bg-white">
+    <div>This is an personal page</div>
   </div>
 </template>
