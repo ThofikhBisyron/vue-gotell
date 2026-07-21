@@ -70,7 +70,7 @@ import { RouterLink } from 'vue-router';
             <img src="" alt="">
         </div>
         <div>
-            <div class="text-center bg-red-400 rounded-2xl">
+            <div class="text-center bg-red-400 rounded-2xl p-3">
                 Logout
             </div>
             <img src="" alt="">
