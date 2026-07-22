@@ -4,12 +4,12 @@ import { RouterLink } from 'vue-router';
 </script>
 <template>
   <div class="flex flex-col w-6/12">
-    <div class="flex flex-row p-3 items-center justify-between">
-      <RouterLink to="/settings">
-        <img src="/arrowleft.svg" alt="back" class="w-8 h-8">
+    <div class="flex flex-row items-center justify-between mb-3">
+      <RouterLink to="/settings" class="">
+        <img src="/arrowleft.svg" alt="back" class="w-8 h-8 active:bg-gray-400">
       </RouterLink>
       <div class="">
-          Setting
+          Personal Details 
       </div>
       <div>
 

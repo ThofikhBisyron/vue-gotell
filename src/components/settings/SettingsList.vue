@@ -6,7 +6,7 @@ import { RouterLink } from 'vue-router';
 <template>
   <div class="flex flex-col w-6/12">
     <div class="bg-white p-3 rounded-2xl mb-5 flex flex-col gap-3">
-        <div class="text-gray-400 text-base">
+        <div class="text-gray-500 text-base">
             Account
         </div>
         <div class="flex flex-row justify-between">
@@ -18,7 +18,7 @@ import { RouterLink } from 'vue-router';
     </div>
 
     <div class="bg-white p-3 rounded-2xl mb-5 flex flex-col gap-3">
-        <div class="text-gray-400 text-base">
+        <div class="text-gray-500 text-base">
             Permissions
         </div>
         <div>
@@ -36,7 +36,7 @@ import { RouterLink } from 'vue-router';
     </div>
 
     <div class="bg-white p-3 rounded-2xl mb-5 flex flex-col gap-3">
-        <div class="text-gray-400 text-base">
+        <div class="text-gray-500 text-base">
             Security
         </div>
         <div>
@@ -60,7 +60,7 @@ import { RouterLink } from 'vue-router';
     </div>
 
     <div class="bg-white p-3 rounded-2xl mb-5 flex flex-col gap-3">
-        <div class="text-gray-400 text-base">
+        <div class="text-gray-500 text-base">
             Other
         </div>
         <div>
@@ -70,7 +70,7 @@ import { RouterLink } from 'vue-router';
             <img src="" alt="">
         </div>
         <div>
-            <div class="text-center bg-red-400 rounded-2xl p-3">
+            <div class="text-center bg-red-500 rounded-2xl p-3">
                 Logout
             </div>
             <img src="" alt="">
