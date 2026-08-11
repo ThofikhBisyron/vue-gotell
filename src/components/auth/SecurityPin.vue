@@ -44,7 +44,7 @@ function handleInput(event: Event, index: number) {
 
 function handleLogin() {
   console.log(pin.value.join(''))
-  router.replace("/dashboard")
+  router.replace("/")
 }
 </script>
 

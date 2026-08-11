@@ -6,7 +6,7 @@ const menus = [
   { name: 'Statistics', icon: '/sidebar/mood.svg', to: '/statistics'},
   { name: 'Diary', icon: '/sidebar/diary.svg', to: '/diary'},
   { name: 'Settings', icon: '/sidebar/settings.svg', to: '/settings'},
-  { name: 'Add', icon: '/sidebar/adddiary.svg', to: '/addmemories'},
+  { name: 'Add', icon: '/sidebar/adddiary.svg', to: '/add-diary'},
 ]
 
 </script>

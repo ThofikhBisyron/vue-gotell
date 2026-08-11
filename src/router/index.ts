@@ -6,6 +6,7 @@ import DashboardView from '@/views/DashboardView.vue'
 import StatisticsView from '@/views/StatisticsView.vue'
 import DiaryView from '@/views/DiaryView.vue'
 import SettingsView from '@/views/Settings/SettingsView.vue'
+import AddDiaryView from '@/views/AddDiaryView.vue'
 
 
 const router = createRouter({
@@ -58,6 +59,11 @@ const router = createRouter({
       path: '/settings',
       name: 'settings',
       component: SettingsView,
+    },
+    {
+      path: '/add-diary',
+      name: 'add-diary',
+      component: AddDiaryView,
     },
     {
       path: '/settings/personaldetails',
