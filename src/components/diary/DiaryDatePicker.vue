@@ -35,31 +35,31 @@ const changeDate = (days: number) => {
 </script>
 <template>
   <div class="relative mb-3">
-    <div class="flex bg-white rounded-xl items-center gap-80 justify-between p-2">
+    <div class="flex bg-white rounded-xl items-center justify-between p-2">
       <button
       type="button"
       @click="changeDate(-1)"
-      class="cursor-pointer">
+      class="cursor-pointer px-2 hover:bg-purple-200 rounded-2xl">
       <
       </button>
 
       <button
       type="button"
       @click="showCalendar = !showCalendar"
-      class="flex item-center gap-2 cursor-pointer"
+      class="flex item-center gap-2 cursor-pointer hover:bg-purple-200 rounded-2xl px-2"
       >
-      <img
-      src="/calendar.svg"
-      class="w-5 h-5"/>
-      <div>
-        {{ formattedDate }}
-      </div>        
+        <img
+        src="/calendar.svg"
+        class="w-5 h-5 mt-0.5"/>
+        <div class="">
+          {{ formattedDate }}
+        </div>        
       </button>
 
       <button
       type="button"
       @click="changeDate(1)"
-      class="cursor-pointer">
+      class="cursor-pointer px-2 hover:bg-purple-200 rounded-2xl">
         >
       </button>
     </div>

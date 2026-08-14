@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import DiaryOption from './DiaryOption.vue';
+import { RouterLink } from 'vue-router';
 import { ref } from 'vue';
 
 const diarys = [
   {id : 1, mood:"/mood/happy.svg", date:"28 May 21", title:"First day in work", content:"Vivamus ornare metus ut interdum mollis. Donec hendrerit elit at faucibus"},
-  {id : 2, mood:"/mood/happy.svg", date:"28 May 21", title:"First day in work", content:"Vivamus ornare metus ut interdum mollis. Donec hendrerit elit at faucibus"}
+  {id : 2, mood:"/mood/happy.svg", date:"28 May 21", title:"First day in work", content:"Hari Ini"}
 ]
 
 const activeMenu = ref<number | null>(null)
@@ -13,9 +14,10 @@ const toggleMenu = (id: number) => {
 }
 </script>
 <template>
-      <div class="relative bg-white p-5 rounded-xl flex flex-col gap-2" 
+    <RouterLink class="relative bg-white p-5 rounded-xl flex flex-col gap-2" 
       v-for="diary in diarys"
-      :key="diary.id">
+      :key="diary.id"
+      :to="`/diary/${diary.id}`">
         <div class="flex justify-between">
           <img
           :src="diary.mood"
@@ -47,5 +49,5 @@ const toggleMenu = (id: number) => {
         <div>
           {{ diary.content }}
         </div>
-      </div>
+    </RouterLink>
 </template>

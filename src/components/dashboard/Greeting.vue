@@ -17,7 +17,7 @@ const moods = [
       v-for="mood in moods"
       :src="mood.icon"
       :alt="mood.name"
-      :class="`w-20 ${mood.bg} py-10 px-2`"
+      :class="`w-20 ${mood.bg} py-10 px-2 rounded-2xl`"
       />
     </div>
   </div>

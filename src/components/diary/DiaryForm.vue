@@ -10,7 +10,7 @@ const selectedMood = ref<number | null>(null)
 
 </script>
 <template>
-  <div class="">
+  <div class="w-6/12">
     <DiaryDatePicker/>
 
     <div class=" bg-white rounded-xl mb-5">
@@ -22,7 +22,7 @@ const selectedMood = ref<number | null>(null)
       />
 
       <textarea
-      v-model="title"
+      v-model="content"
       placeholder="Start Typing"
       class="w-full rounded-xl p-2 h-80 outline-0"
       ></textarea>
