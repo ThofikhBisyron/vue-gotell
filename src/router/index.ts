@@ -66,6 +66,11 @@ const router = createRouter({
       component: AddDiaryView,
     },
     {
+      path: '/edit-diary/:id',
+      name: 'edit-diary',
+      component: () => import('../views/EditDiaryView.vue')
+    },
+    {
       path: '/diary/:id',
       name: 'diary-detail',
       component: () => import('../views/DiaryDetailView.vue'),
