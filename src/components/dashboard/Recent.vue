@@ -4,11 +4,11 @@ import DiaryCard from '../diary/DiaryCard.vue';
 
 const diarys = [
   { id : 1, 
-    mood:"/mood/happy.svg", 
+    mood: 4, 
     date:"28 May 21", 
     title:"First day in work", 
     content:"Vivamus ornare metus ut interdum mollis. Donec hendrerit elit at faucibus,Vivamus ornare metus ut interdum mollis. Donec hendrerit elit at faucibus"},
-  {id : 2, mood:"/mood/happy.svg", date:"28 May 21", title:"First day in work", content:"Hari Ini"}
+  {id : 2, mood: 2, date:"28 May 21", title:"First day in work", content:"Hari Ini"}
 ]
 </script>
 <template>

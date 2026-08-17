@@ -8,7 +8,7 @@ const route = useRoute()
 console.log(route.params.id)
 const diarys = [
   { id : 1, 
-    mood:"/mood/happy.svg", 
+    mood: 4, 
     date:"28 May 21", 
     title:"First day in work", 
     content:"Vivamus ornare metus ut interdum mollis. Donec hendrerit elit at faucibus,Vivamus ornare metus ut interdum mollis. Donec hendrerit elit at faucibusVivamus ornare metus ut interdum mollis. Donec hendrerit elit at faucibusVivamus ornare metus ut interdum mollis. Donec hendrerit elit at faucibus"
