@@ -3,22 +3,31 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import DiaryForm from '@/components/diary/DiaryForm.vue';
 import { useRoute } from 'vue-router'
 import type { Diary } from '@/types/diary'
+import { onMounted, ref } from 'vue';
+import { apiFetch } from '@/utils/apiFetch';
 
 const route = useRoute()
-const diarys: Diary[] = [
-  {
-    id: 1,
-    mood_id: 4,
-    date: '2026-08-18',
-    title: 'First day in work',
-    content: 'Hari ini saya mulai bekerja...'
-  }
-]
+const diary = ref<Diary | null>(null)
+const loading = ref(true)
 
-const diaryId = Number(route.params.id)
-const diary = diarys.find(
-  diary => diary.id === diaryId
-)
+const getDiary = async () => {
+  try {
+    const response = await apiFetch(`/diary/${route.params.id}`)
+
+    if (!response.ok) {
+      throw new Error('Failed to get diary')
+    }
+
+    const result = await response.json()
+    diary.value = result.diary
+  } catch (err) {
+    console.error(err)
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(getDiary)
 
 
 </script>

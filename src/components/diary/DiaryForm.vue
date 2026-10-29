@@ -1,30 +1,94 @@
 <script setup lang="ts">
+import { apiFetch } from '@/utils/apiFetch.ts';
 import DiaryDatePicker from './DiaryDatePicker.vue';
 import DiaryMoodPicker from './DiaryMoodPicker.vue';
+import { useToast } from '@/composables/useToast.ts';
 import type { Diary } from '@/types/diary.ts';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 const props = defineProps<{
   diary?: Diary
 }>()
 
+const {showToast} = useToast()
+const router = useRouter()
+
 const title = ref(props.diary?.title ?? '')
 const content = ref(props.diary?.content ?? '')
 const selectedMood = ref<number | null>(props.diary?.mood_id ?? null)
-const selectedDate = ref<Date>(props.diary?.date ? new Date(props.diary.date) : new Date)
+const getInitialDate = (): Date => {
+  if (!props.diary?.date) return new Date()
 
-const formattedDate = (date: Date) => {
-  return date.toISOString().split('T')[0]
+  const [year, month, day] = props.diary.date
+    .slice(0, 10)
+    .split('-')
+    .map(Number)
+
+  return new Date(year!, month! - 1, day!)
 }
 
-const saveDiary = () => {
-  const data = {
-    title: title.value,
-    date: formattedDate(selectedDate.value),
-    content: content.value,
-    mood: selectedMood.value,
+const selectedDate = ref<Date>(getInitialDate())
+
+const formattedDate = (date: Date) => {
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+
+  const timezoneOffset = -date.getTimezoneOffset()
+  const sign = timezoneOffset >= 0 ? '+' : '-'
+  const hours = String(Math.floor(Math.abs(timezoneOffset) / 60)).padStart(2, '0')
+  const minutes = String(Math.abs(timezoneOffset) % 60).padStart(2, '0')
+
+  return `${year}-${month}-${day}T00:00:00${sign}${hours}:${minutes}`
+}
+
+const saveDiary = async () => {
+
+  try{
+    const isEdit = !!props.diary
+
+    const endpoint = isEdit
+      ? `/diary/${props.diary!.id}`
+      : '/diary/'
+
+    const response = await apiFetch(endpoint, {
+      method: isEdit ? 'PATCH' : 'POST',
+      headers: {
+          'Content-Type' : 'application/json',
+      },
+      body: JSON.stringify({
+        mood_id : selectedMood.value,
+        title : title.value,
+        content : content.value,
+        date : formattedDate(selectedDate.value),
+      })
+    })
+
+    if (!response.ok) {
+      throw new Error(
+        isEdit ? 'Failed to update diary' : 'Failed to create diary'
+      )
+    }
+
+    showToast(
+      isEdit ? 'Diary updated successfully' : 'Diary created successfully',
+      'success'
+    )
+    const result = await response.json()
+    const diaryId = isEdit ? props.diary!.id : result.diary.id
+
+    router.push(`/diary/${diaryId}`)
+
+  } catch(err){
+    showToast(
+      err instanceof Error ? err.message : 'Something went wrong',
+      'error'
+    )
+  } finally {
+
   }
-  console.log(data)
+  
   if (props.diary) {
     console.log('Edit Diary', props.diary.id)
   } else {
