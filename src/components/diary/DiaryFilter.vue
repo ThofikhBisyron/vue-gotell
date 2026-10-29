@@ -15,7 +15,6 @@ const emit = defineEmits<{
 }>()
 
 const handleMonthYear = (pages: any[]) => {
-  console.log('did-move terpanggil:', pages)
 
   const page = pages?.[0]
   if (!page) return

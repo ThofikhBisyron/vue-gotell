@@ -39,7 +39,6 @@ const getDiaries = async () => {
     const currentRequest = ++requestId
     const keyword = search.value.trim()
     const { year, month } = displayedMonth.value
-    console.log(displayedMonth.value)
     loading.value = true
 
     try{
@@ -62,7 +61,6 @@ const getDiaries = async () => {
         } else {
             endpoint = `/diary/month?year=${year}&month=${month}`
         }
-        console.log(selectedDate)
 
         const response = await apiFetch(endpoint)
 

@@ -12,18 +12,22 @@ defineProps<{
 
 </script>
 <template>
-  <div class="h-80 w-1/2 flex flex-col gap-2 overflow-auto">
+  <div class="h-80 w-1/2 flex flex-col gap-3 overflow-auto">
     <div v-if="loading">
       <DiarySkeleton/>
       <DiarySkeleton/>
     </div>
 
-    <div v-else-if="diaries.length > 0" 
-    v-for="diary in diaries"
-    :key="diary.id">
-      <DiaryCard
-      :diary="diary"
-      compact/>
+    <div v-else-if="diaries.length > 0" class="">
+      <div 
+      class="m-2"
+      v-for="diary in diaries"
+      :key="diary.id">
+        <DiaryCard
+        :diary="diary"
+        compact/>
+      </div>
+
     </div>
 
     <div v-else class="text-xl text-gray-500 text-center">

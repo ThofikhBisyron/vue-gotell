@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
 import { useRoute } from 'vue-router'
+import type { Diary } from '@/types/diary.ts'; 
 
 const route = useRoute()
 

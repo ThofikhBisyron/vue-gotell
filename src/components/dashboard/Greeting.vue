@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useProfileStore } from '@/stores/profile';
+
 
 const moods = [
   {name: "very Sad", icon:"/mood/verysad.svg", bg:"bg-rose-200"},
@@ -7,18 +9,21 @@ const moods = [
   {name: "Happy", icon:"/mood/happy.svg", bg:"bg-cyan-200"},
   {name: "Very Happy", icon:"/mood/veryhappy.svg", bg:"bg-green-300"},
 ]
+
+const profileStore = useProfileStore()
+console.log(profileStore)
 </script>
 <template>
   <div class="flex flex-col gap-3 text-center mb-10">
-    <div class="text-gray-500 text-xl italic">Hello, John Doe</div>
+    <div class="text-gray-500 text-xl italic">Hello, {{ profileStore.profile?.last_name }}</div>
     <div class="text-2xl font-semibold">How are you doing today ?</div>
-    <div class="flex gap-5">
+    <button class="flex gap-5 cursor-pointer">
       <img
       v-for="mood in moods"
       :src="mood.icon"
       :alt="mood.name"
       :class="`w-20 ${mood.bg} py-10 px-2 rounded-2xl`"
       />
-    </div>
+    </button>
   </div>
 </template>
