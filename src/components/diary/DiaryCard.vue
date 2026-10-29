@@ -7,6 +7,11 @@ import type { Diary } from '@/types/diary.ts';
 
 const router = useRouter()
 
+const props = defineProps<{
+  diary: Diary
+  compact?: boolean
+}>()
+
 const moodIcons: Record<number, string> = {
   1: '/mood/verysad.svg',
   2: '/mood/sad.svg',
@@ -15,14 +20,38 @@ const moodIcons: Record<number, string> = {
   5: '/mood/veryhappy.svg',
 }
 
+const formattedDate = computed(() => {
+  const dateString = props.diary.date.slice(0, 10)
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(dateString)
 
-const props = defineProps<{
-  diary: Diary
-  compact?: boolean
-}>()
+  if (!match) return 'Invalid date'
+
+  const year = Number(match[1])
+  const month = Number(match[2])
+  const day = Number(match[3])
+
+  const date = new Date(year, month - 1, day)
+
+  if (
+    date.getFullYear() !== year ||
+    date.getMonth() !== month - 1 ||
+    date.getDate() !== day
+  ) {
+    return 'Invalid date'
+  }
+
+  return date.toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  })
+})
+
+
+
 
 const moodIcon = computed(() => {
-  return moodIcons[props.diary.mood]
+  return moodIcons[props.diary.mood_id]
 })
 
 const activeMenu = ref<number | null>(null)
@@ -62,14 +91,17 @@ const goToDiary = () => {
       <RouterLink 
       :to="`/diary/${diary.id}`"
       class="block rounded-2xl p-3 transition-colors duration-200 hover:bg-yellow-100">
-        <div class="w-fit p-1 bg-blue-200">
-          {{ diary.date }}
+        <div class="w-fit p-1 bg-blue-200 mb-2">
+          {{ formattedDate }}
         </div>
-        <div>
+        <div class="text-3xl font-bold mb-2">
           {{ diary.title }}
         </div>
         <div 
-        :class="compact ? 'line-clamp-1' : ''">
+        :class="[
+        'whitespace-pre-wrap wrap-break-words wrap-anywhere',
+        compact ? 'line-clamp-3' : '',
+        ]">
           {{ diary.content }}
         </div>
       </RouterLink>

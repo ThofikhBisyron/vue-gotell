@@ -1,3 +1,4 @@
+import { apiFetch } from "@/utils/apiFetch";
 import { defineStore } from "pinia";
 import { ref } from "vue"
 
@@ -24,9 +25,7 @@ export const useProfileStore = defineStore('profile', () => {
         error.value = null
 
         try {
-            const response = await fetch(`${apiUrl}/profile/me`, {
-                credentials: 'include',
-            })
+            const response = await apiFetch(`/profile/me`)
 
             if (!response.ok) {
                 if (response.status === 401) {

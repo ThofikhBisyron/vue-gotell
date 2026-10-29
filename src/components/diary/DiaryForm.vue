@@ -10,7 +10,7 @@ const props = defineProps<{
 
 const title = ref(props.diary?.title ?? '')
 const content = ref(props.diary?.content ?? '')
-const selectedMood = ref<number | null>(props.diary?.mood ?? null)
+const selectedMood = ref<number | null>(props.diary?.mood_id ?? null)
 const selectedDate = ref<Date>(props.diary?.date ? new Date(props.diary.date) : new Date)
 
 const formattedDate = (date: Date) => {

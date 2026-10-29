@@ -8,7 +8,7 @@ const route = useRoute()
 const diarys: Diary[] = [
   {
     id: 1,
-    mood: 4,
+    mood_id: 4,
     date: '2026-08-18',
     title: 'First day in work',
     content: 'Hari ini saya mulai bekerja...'

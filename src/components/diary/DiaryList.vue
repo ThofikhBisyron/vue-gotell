@@ -1,24 +1,33 @@
 <script setup lang="ts">
 import DiaryCard from './DiaryCard.vue';
 import { RouterLink } from 'vue-router';
+import DiarySkeleton from './DiarySkeleton.vue'
+import type { Diary } from '@/types/diary.ts'; 
 
-const diarys = [
-  { id : 1, 
-    mood: 4, 
-    date:"28 May 21", 
-    title:"First day in work", 
-    content:"Vivamus ornare metus ut interdum mollis. Donec hendrerit elit at faucibus,Vivamus ornare metus ut interdum mollis. Donec hendrerit elit at faucibus"},
-  {id : 2, mood: 2, date:"28 May 21", title:"First day in work", content:"Hari Ini"}
-]
+defineProps<{
+  diaries: Diary[]
+  loading: boolean
+}>()
+
+
 </script>
 <template>
   <div class="h-80 w-1/2 flex flex-col gap-2 overflow-auto">
-    <div 
-    v-for="diary in diarys"
+    <div v-if="loading">
+      <DiarySkeleton/>
+      <DiarySkeleton/>
+    </div>
+
+    <div v-else-if="diaries.length > 0" 
+    v-for="diary in diaries"
     :key="diary.id">
       <DiaryCard
       :diary="diary"
       compact/>
-  </div>
+    </div>
+
+    <div v-else class="text-xl text-gray-500 text-center">
+      no diary yet.
+    </div>
   </div>
 </template>

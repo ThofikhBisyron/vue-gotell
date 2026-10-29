@@ -2,8 +2,29 @@
 import { ref } from 'vue';
 
 
-const selectedDate = ref(new Date())
-const search = ref('')
+const selectedDate = defineModel<Date | null>('selectedDate', {
+  required: true,
+})
+
+const search = defineModel<string>('search', {
+  required: true,
+})
+
+const emit = defineEmits<{
+  'update:month-year': [value: { year: number; month: number }]
+}>()
+
+const handleMonthYear = (pages: any[]) => {
+  console.log('did-move terpanggil:', pages)
+
+  const page = pages?.[0]
+  if (!page) return
+
+  emit('update:month-year', {
+    year: page.year,
+    month: page.month,
+  })
+}
 
 </script>
 <template>
@@ -12,6 +33,7 @@ const search = ref('')
         <img
         src="/search.svg"
         class="w-5 h-5"
+        alt=""
         />
         <input
         v-model="search"
@@ -26,6 +48,7 @@ const search = ref('')
         view="weekly"
         expanded
         v-model="selectedDate"
+        @did-move="handleMonthYear"
         class="w-full"
         />
     </div>
