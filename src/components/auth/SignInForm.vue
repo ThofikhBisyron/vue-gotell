@@ -1,15 +1,47 @@
 <script setup lang="ts">
+import { apiFetch } from '@/utils/apiFetch'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useToast } from '@/composables/useToast'
 
 const router = useRouter()
+
+const { showToast } = useToast()
 
 const email = ref('')
 
 
-function handleLogin() {
-  console.log('Login:', email.value)
-  router.push('/otpverification')
+async function handleLogin() {
+  try{
+    const response = await apiFetch('/auth/email/request', {
+        method : "POST",
+        headers: {
+        'Content-Type' : 'application/json',
+        },
+        body: JSON.stringify({
+            email : email,
+        })
+    })
+
+    const result = await response.json()
+
+    if (!response.ok) {
+        throw new Error(result.message || 'failed to sign in with email')
+    }
+    router.push({
+        name: '/otpverification',
+        state: {email: email.value}
+    })
+
+  }catch (err) {
+    showToast(
+        err instanceof Error ? err.message : 'Something went wrong',
+        'error'
+    )
+  }finally {
+
+  }
+  
 }
 </script>
 

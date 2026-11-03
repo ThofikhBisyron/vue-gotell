@@ -53,8 +53,8 @@ onMounted(getRecentDiary)
           :diary="diary"
           compact/>
       </div>
-      <div v-else class="text-sm text-gray-500">
-         Belum ada diary.
+      <div v-else class="text-sm text-gray-500 text-center">
+         Nothing here
       </div>
     </div>
   </div>
