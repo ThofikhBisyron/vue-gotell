@@ -1,63 +1,127 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { useToast } from '@/composables/useToast'
+import { apiFetch } from '@/utils/apiFetch'
+import { computed, nextTick, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-const otp = ref(['', '', '', ''])
+const otp = ref(['', '', '', '', '', ''])
+const email = ref('')
+const loading = ref(false)
+const { showToast } = useToast()
+
+const otpCode = computed(() => otp.value.join(''))
+
+onMounted(() => {
+    email.value = history.state.email || ''
+    
+    if (!email.value) {
+        showToast('Email not found. Please login again.', 'error')
+        router.replace('/login')
+    }
+})
 
 function handleInput(event: Event, index: number) {
-  const target = event.target as HTMLInputElement
+    const target = event.target as HTMLInputElement
 
-  // hanya angka
-  target.value = target.value.replace(/\D/g, '')
+    const value = target.value.replace(/\D/g, '').slice(-1)
 
-  otp.value[index] = target.value
+    otp.value[index] = value
+    target.value = value
 
-  // auto next
-  if (target.value && index < otp.value.length - 1) {
-    const nextInput = document.getElementById(
-      `otp-${index + 1}`
-    ) as HTMLInputElement
+    if (value && index < 5) {
+        const nextInput = document.getElementById(
+            `otp-${index + 1}`
+        ) as HTMLInputElement
 
-    nextInput?.focus()
-  }
+        nextInput?.focus()
+    }
 }
 
 function handleKeydown(event: KeyboardEvent, index: number) {
-  const target = event.target as HTMLInputElement
+    const target = event.target as HTMLInputElement
 
-  // kalau backspace & kosong
-  if (
-    event.key === 'Backspace' &&
-    !target.value &&
-    index > 0
-  ) {
-    const prevInput = document.getElementById(
-      `otp-${index - 1}`
-    ) as HTMLInputElement
+    if (event.key === 'Backspace' && !target.value && index > 0) {
+        const prevInput = document.getElementById(
+            `otp-${index - 1}`
+        ) as HTMLInputElement
 
-    prevInput?.focus()
-  }
+        prevInput?.focus()
+    }
 }
 
 function handlePaste(event: ClipboardEvent) {
-  event.preventDefault()
+    event.preventDefault()
 
-  const pastedData = event.clipboardData
-    ?.getData('text')
-    .replace(/\D/g, '')
-    .slice(0, 4)
+    const pastedData = event.clipboardData
+        ?.getData('text')
+        .replace(/\D/g, '')
+        .slice(0, 6)
 
-  if (!pastedData) return
+    if (!pastedData) return
 
-  pastedData.split('').forEach((char, index) => {
-    otp.value[index] = char
-  })
+    otp.value = ['', '', '', '', '', '']
+
+    pastedData.split('').forEach((char, index) => {
+        otp.value[index] = char
+    })
+
+    nextTick(() => {
+        const nextIndex = Math.min(pastedData.length, 5)
+
+        const input = document.getElementById(
+            `otp-${nextIndex}`
+        ) as HTMLInputElement
+
+        input?.focus()
+    })
 }
 
-function handleOtp() {
-  console.log(otp.value.join(''))
-    router.push('/securitypin')
+async function handleOtp() {
+    if (!email.value) {
+        showToast('Email not found. Please login again.', 'error')
+        return
+    }
+
+    if (otpCode.value.length !== 6) {
+        showToast('Please enter the 6-digit verification code.', 'error')
+        return
+    }
+
+    loading.value = true
+
+    try {
+        const response = await apiFetch('/auth/email/verify', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: email.value,
+                code: otpCode.value,
+            }),
+        })
+
+        const result = await response.json()
+
+        if (!response.ok) {
+            throw new Error(result.message || 'OTP verification failed')
+        }
+
+        showToast('Email verified successfully.', 'success')
+
+        router.replace('/securitypin')
+
+    } catch (err) {
+        showToast(
+            err instanceof Error
+                ? err.message
+                : 'Something went wrong',
+            'error',
+        )
+    } finally {
+        loading.value = false
+    }
 }
 </script>
 
@@ -67,7 +131,7 @@ function handleOtp() {
           Verify is that you?  
         </div>
         <div class="w-80">
-            One more step, please check your verification code on your email or mobile
+            One more step, please check your verification code on your email
         </div>
     </div>
     <div class="flex flex-col gap-1">

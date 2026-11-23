@@ -1,50 +1,60 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { useToast } from '@/composables/useToast'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+const { showToast } = useToast()
 
-const pin = ref(['', '', '', ''])
+const pin = ref(['', '', '', '', '', ''])
+
+const pinCode = computed(() => pin.value.join(''))
 
 function handleKeydown(event: KeyboardEvent, index: number) {
-  const target = event.target as HTMLInputElement
+    const target = event.target as HTMLInputElement
 
-  // kalau backspace & kosong
-  if (
-    event.key === 'Backspace' &&
-    !target.value &&
-    index > 0
-  ) {
-    const prevInput = document.getElementById(
-      `pin-${index - 1}`
-    ) as HTMLInputElement
+    if (
+        event.key === 'Backspace' &&
+        !target.value &&
+        index > 0
+    ) {
+        const prevInput = document.getElementById(
+            `pin-${index - 1}`
+        ) as HTMLInputElement
 
-    prevInput?.focus()
-  }
+        prevInput?.focus()
+    }
 }
 
 function handleInput(event: Event, index: number) {
-  const target = event.target as HTMLInputElement
+    const target = event.target as HTMLInputElement
 
-  // hanya angka
-  target.value = target.value.replace(/\D/g, '')
+    const value = target.value.replace(/\D/g, '').slice(-1)
 
-  pin.value[index] = target.value
+    pin.value[index] = value
+    target.value = value
 
-  // auto next
-  if (target.value && index < pin.value.length - 1) {
-    const nextInput = document.getElementById(
-      `pin-${index + 1}`
-    ) as HTMLInputElement
+    if (value && index < 5) {
+        const nextInput = document.getElementById(
+            `pin-${index + 1}`
+        ) as HTMLInputElement
 
-    nextInput?.focus()
-  }
+        nextInput?.focus()
+    }
 }
 
 
 function handleLogin() {
-  console.log(pin.value.join(''))
-  router.replace("/")
+    if (pinCode.value.length !== 6) {
+        showToast('Please enter your 6-digit PIN.', 'error')
+        return
+    }
+    
+    router.replace('/')
+}
+
+function handleLater() {
+    router.replace('/')
 }
 </script>
 
@@ -56,6 +66,9 @@ function handleLogin() {
         <div>
             Secure your login with Pin Code
         </div>
+        <button @click="handleLater" class="font-italic">
+          or you can add pin later
+        </button>
     </div>
     <div class="flex flex-col gap-1">
         <label class="text-left">

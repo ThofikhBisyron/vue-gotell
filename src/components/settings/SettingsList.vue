@@ -13,7 +13,9 @@ const {showToast} = useToast()
 
 async function handleLogout() {
     try{    
-        const response = await apiFetch('/auth/logout/')
+        const response = await apiFetch('/auth/logout/',{
+            method: "POST"
+        })
 
         const result = await response.json()
         if (!response.ok) {

@@ -19,18 +19,18 @@ async function handleLogin() {
         'Content-Type' : 'application/json',
         },
         body: JSON.stringify({
-            email : email,
+            email : email.value.trim(),
         })
     })
 
     const result = await response.json()
 
     if (!response.ok) {
-        throw new Error(result.message || 'failed to sign in with email')
+        throw new Error('failed to sign in with email')
     }
     router.push({
-        name: '/otpverification',
-        state: {email: email.value}
+        path: '/otpverification',
+        state: {email: email.value.trim()}
     })
 
   }catch (err) {
