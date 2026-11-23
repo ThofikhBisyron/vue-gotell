@@ -1,12 +1,35 @@
 <script setup lang="ts">
-
+import { useToast } from '@/composables/useToast';
+import { useProfileStore } from '@/stores/profile';
+import { useSettingStore } from '@/stores/setting';
+import { apiFetch } from '@/utils/apiFetch';
 import { RouterLink } from 'vue-router';
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+const settingStore = useSettingStore()
+const profileStore = useProfileStore()
+const {showToast} = useToast()
 
-function handleLogout() {
-    router.replace("/login")
+async function handleLogout() {
+    try{    
+        const response = await apiFetch('/auth/logout/')
+
+        const result = await response.json()
+        if (!response.ok) {
+            throw new Error(
+                result.message || "Can't Logout",
+            )
+        }
+        settingStore.clearSettings()
+        profileStore.clearProfile()
+        router.replace("/login")
+        
+    }catch(err){
+        showToast(
+            err instanceof Error ? err.message : 'Something went wrong', "error",
+        )
+    }
 }
 </script>
 <template>

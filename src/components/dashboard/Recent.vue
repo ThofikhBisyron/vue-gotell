@@ -18,12 +18,11 @@ const getRecentDiary = async () => {
   try{
     const response = await apiFetch(`/diary/recent`)
 
-  if (!response.ok) {
-      throw new Error(`failed to get diary`)
-  }
   const result = await response.json()
   diary.value = result.diary
-  console.log(result)
+  if (!response.ok) {
+      throw new Error(result.message)
+  }
   }catch(err) {
     showToast(
       err instanceof Error ? err.message : 'Something went wrong', 'error',

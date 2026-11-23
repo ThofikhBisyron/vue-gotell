@@ -1,7 +1,35 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { useToast } from '@/composables/useToast';
+import { useSettingStore } from '@/stores/setting';
+import { computed, onMounted, ref } from 'vue';
 
-const location = ref(true)
+const settingStore = useSettingStore()
+const {showToast} = useToast()
+
+onMounted(async () => {
+    try{
+        await settingStore.fetchSettings()
+    }catch(err) {
+
+    }
+})
+
+const location = computed({
+    get: () => settingStore.settings?.location ?? false,
+
+    set: async (value:boolean) => {
+        try{
+            await settingStore.updateSettings({
+                location: value,
+            })
+        }catch(err){
+            showToast(
+                err instanceof Error ? err.message : 'Failed to update location',
+                'error',
+            )
+        }
+    }
+})
 </script>
 <template>
   <div class="flex flex-col w-6/12">
@@ -31,6 +59,7 @@ const location = ref(true)
                 v-model="location"
                 type="checkbox"
                 class="sr-only peer"
+                :disabled="settingStore.loading || settingStore.updating"
                 />
                 <div 
                 class="w-12 h-7 bg-gray-300 rounded-full peer-checked:bg-green-700">

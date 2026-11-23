@@ -1,7 +1,55 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, onMounted } from 'vue'
+import { RouterLink } from 'vue-router'
+import { useSettingStore } from '@/stores/setting'
+import { useToast } from '@/composables/useToast'
 
-const notification = ref(true)
+const settingStore = useSettingStore()
+const { showToast } = useToast()
+
+onMounted(async () => {
+  try {
+    await settingStore.fetchSettings()
+  } catch (err) {
+
+  }
+})
+
+// Memory Reminder
+const memoryReminder = computed({
+  get: () => settingStore.settings?.memory_reminder ?? false,
+
+  set: async (value: boolean) => {
+    try {
+      await settingStore.updateSettings({
+        memory_reminder: value,
+      })
+    } catch (err) {
+      showToast(
+        err instanceof Error ? err.message : 'Failed to update memory reminder',
+        'error',
+      )
+    }
+  },
+})
+
+// In-app Notifications
+const inAppNotifications = computed({
+  get: () => settingStore.settings?.in_app_notifications ?? false,
+
+  set: async (value: boolean) => {
+    try {
+      await settingStore.updateSettings({
+        in_app_notifications: value,
+      })
+    } catch (err) {
+      showToast(
+        err instanceof Error ? err.message : 'Failed to update notifications',
+        'error',
+      )
+    }
+  },
+})
 </script>
 <template>
   <div class="flex flex-col w-6/12">
@@ -28,9 +76,36 @@ const notification = ref(true)
             </div>
             <label class="relative inline-flex items-center cursor-pointer">
                 <input
-                v-model="notification"
+                v-model="memoryReminder"
                 type="checkbox"
                 class="sr-only peer"
+                :disabled="settingStore.loading || settingStore.updating"
+                />
+                <div 
+                class="w-12 h-7 bg-gray-300 rounded-full peer-checked:bg-green-700">
+                
+                </div>
+                <div 
+                class="absolute left-1  w-5 h-5 bg-white rounded-full transition-all peer-checked:translate-x-5">
+
+                </div>
+            </label>
+        </div>
+        <div class="flex justify-between">
+            <div class="flex flex-col gap-2">
+                <div class="text-gray-500">
+                    In-app Notifications
+                </div>
+                <div>
+                    Receive notifications about your diary activities
+                </div>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+                <input
+                v-model="inAppNotifications"
+                type="checkbox"
+                class="sr-only peer"
+                :disabled="settingStore.loading || settingStore.updating"
                 />
                 <div 
                 class="w-12 h-7 bg-gray-300 rounded-full peer-checked:bg-green-700">
