@@ -110,7 +110,7 @@ async function handleOtp() {
 
         showToast('Email verified successfully.', 'success')
 
-        router.replace('/securitypin')
+        router.replace('/')
 
     } catch (err) {
         showToast(

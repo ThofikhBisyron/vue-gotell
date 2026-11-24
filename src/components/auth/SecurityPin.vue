@@ -49,7 +49,7 @@ function handleLogin() {
         showToast('Please enter your 6-digit PIN.', 'error')
         return
     }
-    
+
     router.replace('/')
 }
 
@@ -66,7 +66,7 @@ function handleLater() {
         <div>
             Secure your login with Pin Code
         </div>
-        <button @click="handleLater" class="font-italic">
+        <button @click="handleLater" class="font-bold cursor-pointer" >
           or you can add pin later
         </button>
     </div>

@@ -76,7 +76,7 @@ async function handleLogout() {
             </div>
             <img src="/settings/facelock.svg" alt="facelock" class="w-5 h-5"/>
         </RouterLink>
-        <RouterLink class="flex flex-row justify-between" to="/settings/pinsetting">
+        <RouterLink class="flex flex-row justify-between hidden" to="/settings/pinsetting">
             <div>
                 Security PIN
             </div>
