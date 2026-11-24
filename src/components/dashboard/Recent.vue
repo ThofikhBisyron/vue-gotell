@@ -41,7 +41,7 @@ onMounted(getRecentDiary)
   <div class="w-1/2">
     <div class="flex justify-between mb-3">
       <div>Recently added</div>
-      <button class="hover:bg-purple-200 px-2 rounded-2xl">View all</button>
+      <RouterLink to="/diary" class="hover:bg-purple-200 px-2 rounded-2xl cursor-pointer">View all</RouterLink>
     </div>
     <div class="h-80 flex flex-col gap-2 overflow-auto">
       <DiaryCardSkeleton v-if="loading" />

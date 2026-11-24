@@ -5,7 +5,7 @@ import DiaryMoodPicker from './DiaryMoodPicker.vue';
 import { useToast } from '@/composables/useToast.ts';
 import type { Diary } from '@/types/diary.ts';
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 const props = defineProps<{
   diary?: Diary
@@ -13,10 +13,16 @@ const props = defineProps<{
 
 const {showToast} = useToast()
 const router = useRouter()
+const route = useRoute()
+
+const initialMood = Number(route.query.mood_id)
+const selectedMood = ref<number | null>(
+  props.diary?.mood_id ??
+  (initialMood >= 1 && initialMood <= 5 ? initialMood : null)
+)
 
 const title = ref(props.diary?.title ?? '')
 const content = ref(props.diary?.content ?? '')
-const selectedMood = ref<number | null>(props.diary?.mood_id ?? null)
 const getInitialDate = (): Date => {
   if (!props.diary?.date) return new Date()
 
