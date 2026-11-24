@@ -25,7 +25,7 @@ const emit = defineEmits<{
     >
       <div
         v-if="show"
-        class="fixed inset-0 z-[90] flex items-center justify-center bg-black/40 p-4"
+        class="fixed inset-0 z-90 flex items-center justify-center bg-black/40 p-4"
         @click.self="emit('cancel')"
       >
         <div

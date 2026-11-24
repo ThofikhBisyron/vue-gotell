@@ -13,7 +13,7 @@ const statisticStore = useStatisticStore()
 const selectedPeriod = ref<'weekly' | 'monthly' | 'yearly'>('weekly')
 const selectedDate = ref(new Date())
 
-// Format tanggal lokal tanpa konversi UTC
+
 function formatLocalDate(date: Date) {
   const year = date.getFullYear()
   const month = String(date.getMonth() + 1).padStart(2, '0')
@@ -22,7 +22,6 @@ function formatLocalDate(date: Date) {
   return `${year}-${month}-${day}`
 }
 
-// Mengambil data setiap kali periode atau tanggal berubah
 watch(
   [selectedPeriod, selectedDate],
   ([period, date]) => {
